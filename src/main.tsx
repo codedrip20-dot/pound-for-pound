@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client'
 import SmoothScroll from './components/SmoothScroll.tsx'
 import './index.css'
 import App from './App.tsx'
-import "@fontsource/orbitron";
-import "@fontsource/inter";
+
+
 import { BrowserRouter } from 'react-router-dom';
 
 createRoot(document.getElementById('root')!).render(
