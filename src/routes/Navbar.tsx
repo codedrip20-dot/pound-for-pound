@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import gsap from "gsap";
 
 import logo from "../assets/box.png";
 import two from "../assets/218.png";
 
-const navContainer = {
+const navContainer: Variants = {
   hidden: {
     opacity: 0,
     y: -40,
@@ -16,13 +17,13 @@ const navContainer = {
     y: 0,
     transition: {
       duration: 1,
-      ease: [0.22, 1, 0.36, 1],
+      ease: "easeOut",
       staggerChildren: 0.08,
     },
   },
 };
 
-const navItem = {
+const navItem: Variants = {
   hidden: {
     opacity: 0,
     y: -20,
@@ -32,6 +33,7 @@ const navItem = {
     y: 0,
     transition: {
       duration: 0.7,
+      ease: "easeOut",
     },
   },
 };
@@ -76,7 +78,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* NAVBAR */}
       <motion.nav
         ref={navRef}
         variants={navContainer}
@@ -88,30 +89,27 @@ export default function Navbar() {
             : "bg-black/30 py-4 backdrop-blur-xl"
         }`}
       >
-
-        {/* GLOW */}
+        {/* Glow */}
         <div
           ref={glowRef}
           className="pointer-events-none absolute left-0 top-0 h-24 w-40 rounded-full bg-green-500/10 blur-[80px]"
         />
 
-        {/* TOP LIGHT */}
+        {/* Top Light */}
         <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-green-400/60 to-transparent" />
 
-        {/* GRID */}
+        {/* Grid */}
         <div className="absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#22c55e_1px,transparent_1px)] bg-[size:80px_80px]" />
 
         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
 
-            {/* LOGO */}
+            {/* Logo */}
             <motion.div variants={navItem}>
               <Link to="/" className="group relative flex items-center">
 
-                {/* GLOW */}
                 <div className="absolute inset-0 rounded-full bg-green-500/20 blur-2xl opacity-0 transition duration-500 group-hover:opacity-100" />
 
-                {/* REFLECTION */}
                 <div className="absolute -left-10 top-0 h-full w-10 rotate-12 bg-white/10 blur-xl opacity-0 transition duration-700 group-hover:left-24 group-hover:opacity-100" />
 
                 <img
@@ -124,7 +122,7 @@ export default function Navbar() {
               </Link>
             </motion.div>
 
-            {/* DESKTOP NAV */}
+            {/* Desktop Nav */}
             <motion.div
               variants={navItem}
               className="hidden items-center gap-10 rounded-full border border-white/5 bg-white/[0.03] px-8 py-4 backdrop-blur-2xl md:flex"
@@ -143,15 +141,12 @@ export default function Navbar() {
                 >
                   {({ isActive }) => (
                     <>
-                      {/* TEXT */}
                       <span className="relative z-10">
                         {link.name}
                       </span>
 
-                      {/* HOVER GLOW */}
                       <div className="absolute inset-0 rounded-full bg-green-500/0 blur-xl transition-all duration-300 group-hover:bg-green-500/10" />
 
-                      {/* ACTIVE LINE */}
                       {isActive && (
                         <motion.div
                           layoutId="navbar-indicator"
@@ -169,13 +164,11 @@ export default function Navbar() {
               ))}
             </motion.div>
 
-            {/* RIGHT SIDE */}
+            {/* Desktop CTA */}
             <motion.div
               variants={navItem}
               className="hidden items-center gap-4 md:flex"
             >
-
-              {/* CTA BUTTON */}
               <Link to="/cart">
                 <motion.button
                   whileHover={{
@@ -186,11 +179,8 @@ export default function Navbar() {
                   }}
                   className="group relative overflow-hidden rounded-2xl border border-green-400/30 bg-green-500 px-7 py-3 font-semibold text-black shadow-[0_0_20px_rgba(34,197,94,0.35)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,197,94,0.55)]"
                 >
-
-                  {/* SHINE */}
                   <div className="absolute -left-20 top-0 h-full w-10 rotate-12 bg-white/30 blur-md transition-all duration-700 group-hover:left-[120%]" />
 
-                  {/* TEXT */}
                   <span className="relative z-10">
                     Buy Now
                   </span>
@@ -198,17 +188,14 @@ export default function Navbar() {
               </Link>
             </motion.div>
 
-            {/* MOBILE BUTTON */}
+            {/* Mobile Button */}
             <motion.button
               variants={navItem}
               onClick={() => setOpen(!open)}
               className="relative flex items-center justify-center md:hidden"
             >
-
-              {/* GLOW */}
               <div className="absolute inset-0 rounded-full bg-green-500/20 blur-xl" />
 
-              {/* OUTER RING */}
               <div className="absolute h-12 w-12 rounded-full border border-green-500/20" />
 
               <motion.img
@@ -218,7 +205,7 @@ export default function Navbar() {
                 }}
                 transition={{
                   duration: 0.45,
-                  ease: "easeInOut",
+                  ease: "easeOut",
                 }}
                 src={logo}
                 alt="menu"
@@ -228,11 +215,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* MOBILE MENU */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {open && (
             <>
-              {/* BACKDROP */}
+              {/* Backdrop */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -241,7 +228,7 @@ export default function Navbar() {
                 className="fixed inset-0 bg-black/60 backdrop-blur-sm md:hidden"
               />
 
-              {/* MENU PANEL */}
+              {/* Panel */}
               <motion.div
                 initial={{
                   opacity: 0,
@@ -260,19 +247,15 @@ export default function Navbar() {
                 }}
                 transition={{
                   duration: 0.35,
-                  ease: [0.22, 1, 0.36, 1],
+                  ease: "easeOut",
                 }}
                 className="absolute left-4 right-4 top-24 overflow-hidden rounded-3xl border border-green-500/20 bg-black/80 backdrop-blur-2xl md:hidden"
               >
-
-                {/* GLOW */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,197,94,0.15),transparent_70%)]" />
 
-                {/* TOP LINE */}
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-green-400/50 to-transparent" />
 
                 <div className="relative flex flex-col gap-3 p-6">
-
                   {navLinks.map((link, index) => (
                     <motion.div
                       key={link.path}
@@ -306,7 +289,6 @@ export default function Navbar() {
                     </motion.div>
                   ))}
 
-                  {/* MOBILE CTA */}
                   <Link to="/cart" onClick={() => setOpen(false)}>
                     <motion.button
                       whileTap={{
@@ -324,7 +306,6 @@ export default function Navbar() {
         </AnimatePresence>
       </motion.nav>
 
-      {/* PAGE CONTENT */}
       <main className="min-h-screen bg-black pt-24">
         <Outlet />
       </main>
