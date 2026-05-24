@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Variants } from "framer-motion";
@@ -6,6 +6,9 @@ import gsap from "gsap";
 
 import logo from "../assets/box.png";
 import two from "../assets/218.png";
+import { UserContext } from "../Context/userContext";
+
+
 
 const navContainer: Variants = {
   hidden: {
@@ -41,6 +44,7 @@ const navItem: Variants = {
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { currentUser } = useContext(UserContext);
 
   const navRef = useRef<HTMLElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
@@ -49,8 +53,10 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Product", path: "/market" },
     { name: "About", path: "/aboutus" },
-    { name: "Sign In", path: "/signin" },
+    { name: currentUser ? "My Profile" : "Sign In", path: currentUser ? "/myprofile" : "/signin" },
   ];
+ 
+
 
   useEffect(() => {
     const handleScroll = () => {

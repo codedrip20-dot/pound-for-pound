@@ -3,13 +3,17 @@ import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
 } from "firebase/auth";
 import {
   getFirestore,
   doc,
   getDoc,
   setDoc } from "firebase/firestore";
+
 
 
 console.log('the firebase api key is',import.meta.env.VITE_FIREBASE_API_KEY)
@@ -39,7 +43,8 @@ export const signInWithGoogle = async () => {
     await createUserDocumentFromAuth(response.user);
 
     console.log(response);
-
+    alert("Signed in successfully");
+  
     return response;
   } catch (error) {
     console.log(error);
@@ -89,3 +94,14 @@ export const createAuthUserWithEmailAndPassword = async (
     password
   );
 };
+
+export const signInAuthUserWithEmailAndPassword = async (email: string, password: string) => {
+
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
+}
+
+export const signOutAuthUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback: any ) => 
+  onAuthStateChanged(auth, callback);

@@ -1,8 +1,59 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { signInWithGoogle } from "../utils/firebase";
+import { signInWithGoogle, signInAuthUserWithEmailAndPassword } from "../utils/firebase";
+import {useState, useContext} from "react";
+import { UserContext } from "../Context/userContext";
+import { useNavigate } from "react-router-dom";
+
+ const defaultFormFields = {
+    email: "",
+    password: ""
+};
 
 const SignInPage = () => {
+const {currentUser} = useContext(UserContext); 
+const [formFields, setFormFields] = useState(defaultFormFields);
+
+  const { email, password } = formFields;
+  const navigate = useNavigate();
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = event.target;
+
+    setFormFields({
+      ...formFields,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+   
+      console.log(response);
+      alert("Signed in successfully");
+      navigate("/");
+      console.log('current user is',currentUser);
+      setFormFields(defaultFormFields);
+    } catch (error) {
+      switch (error.code) {
+        case "auth/wrong-password":
+          alert("Incorrect password for email");
+          break;
+        case "auth/user-not-found":
+          alert("No user associated with this email");
+          break;
+        default:
+          alert("Error signing in: " + error.message);  
+          console.log(error);
+      }
+    }
+  };
   return (
     <div className="relative min-h-screen overflow-hidden bg-black flex items-center justify-center px-4">
 
@@ -53,13 +104,42 @@ const SignInPage = () => {
           </span>
           <div className="h-px flex-1 bg-white/10" />
         </div>
+          <form 
+            onSubmit={handleSubmit}
+            className="space-y-5 mt-5"
+          >
+             <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+              placeholder="Email Address"
+              className="w-full bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 px-5 py-4 rounded-xl outline-none focus:border-lime-400 transition-all duration-300"
+            />
+
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="w-full bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 px-5 py-4 rounded-xl outline-none focus:border-lime-400 transition-all duration-300"
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-lime-400 hover:bg-lime-300 text-black font-bold py-4 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-[0_0_30px_rgba(163,230,53,0.4)]"
+            >
+              Login
+            </button>
+          </form>
 
         {/* Sign In Button */}
         <motion.button
           whileTap={{ scale: 0.97 }}
           whileHover={{ scale: 1.015 }}
           onClick={signInWithGoogle}
-          className="group relative w-full overflow-hidden rounded-2xl bg-lime-400 py-4 font-bold text-black transition-all duration-300 hover:bg-lime-300"
+          className="mt-5 group relative w-full overflow-hidden rounded-2xl bg-lime-400 py-4 font-bold text-black transition-all duration-300 hover:bg-lime-300"
         >
           <div className="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
@@ -90,6 +170,8 @@ const SignInPage = () => {
             Sign In With Google
           </span>
         </motion.button>
+       
+          
 
         {/* Signup Redirect */}
         <div className="mt-8 text-center">

@@ -7,6 +7,7 @@ import AboutUsPage from './routes/Aboutuspage.tsx'
 import MarketPage from './routes/Marketpage.tsx'
 import SignInPage from './routes/Signinpage.tsx'
 import SignUpPage from './routes/Signuppage.tsx'
+import MyProfile from './routes/Myprofile.tsx'
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
         <Route path='signin' element={<SignInPage />} />
         <Route path='signup' element={<SignUpPage />} />
         <Route path='aboutus' element={<AboutUsPage />} />
-        
+        <Route path='myprofile' element={<MyProfile />} />
       </Route>
 
     </Routes>
