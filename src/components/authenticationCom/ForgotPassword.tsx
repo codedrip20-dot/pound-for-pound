@@ -67,7 +67,7 @@ const ForgotPassword = () => {
         </h1>
 
         <p className="text-zinc-400 mb-6">
-          Enter your email to receive a password reset link.
+          Enter your email to receive a password reset link
         </p>
 
         <form
