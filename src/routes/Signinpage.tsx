@@ -27,36 +27,79 @@ const [formFields, setFormFields] = useState(defaultFormFields);
     });
   };
 
-
-  const handleSubmit = async (
-  event: FormEvent<HTMLFormElement>
+const handleSubmit = async (
+  event: React.FormEvent<HTMLFormElement>
 ) => {
-    event.preventDefault();
-    try {
-      const response = await signInAuthUserWithEmailAndPassword(
+
+  event.preventDefault();
+
+  try {
+
+    const response =
+      await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-   
-      console.log(response);
-     navigate("/myprofile");
-  
-    
-      setFormFields(defaultFormFields);
-    } catch (error: any) {
-      switch (error.code) {
-        case "auth/wrong-password":
-          alert("Incorrect password for email");
-          break;
-        case "auth/user-not-found":
-          alert("No user associated with this email");
-          break;
-        default:
-          alert("Error signing in: " + error.message);  
-          console.log(error);
-      }
+
+    if (!response) return;
+
+    const { user } = response;
+
+    // BLOCK UNVERIFIED USERS
+    if (!user.emailVerified) {
+
+      await signOutAuthUser();
+
+      alert(
+        "Please verify your email before signing in."
+      );
+
+      return;
     }
-  };
+
+    // VERIFIED USER
+    alert("Signed in successfully");
+
+    navigate("/myprofile");
+
+    setFormFields(defaultFormFields);
+
+  } catch (error: any) {
+
+    switch (error.code) {
+
+      case "auth/wrong-password":
+        alert(
+          "Incorrect password for email"
+        );
+        break;
+
+      case "auth/user-not-found":
+        alert(
+          "No user associated with this email"
+        );
+        break;
+
+      case "auth/invalid-credential":
+        alert(
+          "Invalid email or password"
+        );
+        break;
+
+      default:
+        alert(
+          "Error signing in: " +
+          error.message
+        );
+    }
+
+    console.log(
+      "Sign in encountered an error",
+      error
+    );
+  }
+};
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-black flex items-center justify-center px-4">
 
@@ -187,6 +230,17 @@ const [formFields, setFormFields] = useState(defaultFormFields);
             className="mt-3 inline-flex items-center justify-center rounded-xl border border-lime-400/20 bg-lime-400/10 px-5 py-3 text-sm font-semibold text-lime-400 transition-all duration-300 hover:border-lime-400/40 hover:bg-lime-400/20"
           >
             Create Account
+          </Link>
+        </div>
+
+         <div className="mt-5 text-center">
+         
+
+          <Link
+            to="/reset-password"
+            className="mt-3 inline-flex items-center justify-center rounded-xl border border-lime-400/20 bg-lime-400/10 px-5 py-3 text-sm font-semibold text-lime-400 transition-all duration-300 hover:border-lime-400/40 hover:bg-lime-400/20"
+          >
+            Forgot password? 
           </Link>
         </div>
 

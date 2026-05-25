@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../utils/firebase";
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth, sendEmailVerificationToUser } from "../utils/firebase";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -28,47 +28,116 @@ const SignUpPage = () => {
   };
 
   const handleSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  event: React.FormEvent<HTMLFormElement>
+) => {
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
+  event.preventDefault();
+
+  // PASSWORD CHECK
+  if (password !== confirmPassword) {
+
+    alert("Passwords do not match");
+
+    return;
+  }
+
+  // EMPTY FIELD CHECK
+  if (
+    !displayName ||
+    !email ||
+    !password ||
+    !confirmPassword
+  ) {
+
+    alert("Please fill all fields");
+
+    return;
+  }
+
+  try {
+
+    // CREATE FIREBASE AUTH USER
+    const response =
+      await createAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+
+    if (!response) return;
+
+    const { user } = response;
+
+    // SEND VERIFICATION EMAIL
+    await sendEmailVerificationToUser(
+      user
+    );
+
+    // RESET FORM
+    setFormFields(defaultFormFields);
+
+    // SUCCESS MESSAGE
+    alert(
+      "Verification email sent. Please verify your email."
+    );
+
+    // REDIRECT TO VERIFY PAGE
+    navigate("/verify-email");
+
+  } catch (error: any) {
+
+    // EMAIL ALREADY EXISTS
+    if (
+      error.code ===
+      "auth/email-already-in-use"
+    ) {
+
+      alert(
+        "This email already exists. Please verify your email before signing in."
+      );
+
+      navigate("/verify-email");
+
       return;
     }
 
-   try {
-  const response =
-    await createAuthUserWithEmailAndPassword(
-      email,
-      password
+    // WEAK PASSWORD
+    if (
+      error.code ===
+      "auth/weak-password"
+    ) {
+
+      alert(
+        "Password should be at least 6 characters."
+      );
+
+      return;
+    }
+
+    // INVALID EMAIL
+    if (
+      error.code ===
+      "auth/invalid-email"
+    ) {
+
+      alert(
+        "Please enter a valid email address."
+      );
+
+      return;
+    }
+
+    // DEFAULT ERROR
+    alert(
+      "Something went wrong. Please try again."
     );
 
-
-  if (response) {
-    const { user } = response;
-
-    await createUserDocumentFromAuth(user, {
-      displayName,
-    });
+    console.log(
+      "User creation encountered an error",
+      error
+    );
   }
+};
 
-  alert("Account created successfully");
-  navigate("/");
-
-  setFormFields(defaultFormFields);
-
-} catch (error) {
-  if (error instanceof Error) {
-    alert(error.message);
-  }
-
-  console.log(
-    "User creation encountered an error",
-    error
-  );
-}
-  };
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center px-4 py-10">

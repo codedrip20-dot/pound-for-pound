@@ -6,7 +6,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  sendEmailVerification,
+  sendPasswordResetEmail
 } from "firebase/auth";
 import {
   getFirestore,
@@ -105,3 +107,20 @@ export const signOutAuthUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback: any ) => 
   onAuthStateChanged(auth, callback);
+
+export const sendEmailVerificationToUser = async (user: any) => {
+  if (!user) return;
+  await sendEmailVerification(user);
+};
+
+export const resetPassword = async (
+  email: string
+) => {
+
+  if (!email) return;
+
+  await sendPasswordResetEmail(
+    auth,
+    email
+  );
+};

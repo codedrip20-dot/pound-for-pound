@@ -35,19 +35,21 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener(
       async (user: User | null) => {
-        if (user) {
+     if (user?.emailVerified) {
           console.log("User signed in:", user);
 
           await createUserDocumentFromAuth(user);
+           setCurrentUser(user);
         }
 
-        setCurrentUser(user);
+       
      
       }
     );
 
     return unsubscribe;
   }, []);
+  
 
   const value = {
     currentUser,

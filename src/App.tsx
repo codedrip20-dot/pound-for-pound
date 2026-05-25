@@ -8,6 +8,8 @@ import MarketPage from './routes/Marketpage.tsx'
 import SignInPage from './routes/Signinpage.tsx'
 import SignUpPage from './routes/Signuppage.tsx'
 import MyProfile from './routes/Myprofile.tsx'
+import NotificationCom from './components/authenticationCom/NotificationCom.tsx'
+import ForgotPassword from './components/authenticationCom/ForgotPassword.tsx'
 
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
         <Route path='signup' element={<SignUpPage />} />
         <Route path='aboutus' element={<AboutUsPage />} />
         <Route path='myprofile' element={<MyProfile />} />
+        <Route path='verify-email' element={<NotificationCom />} />
+        <Route path='reset-password' element={<ForgotPassword />} />
       </Route>
 
     </Routes>
