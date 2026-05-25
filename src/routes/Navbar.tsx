@@ -198,7 +198,7 @@ export default function Navbar() {
             <motion.button
               variants={navItem}
               onClick={() => setOpen(!open)}
-              className="relative flex items-center justify-center md:hidden"
+              className="relative flex items-center justify-center md:hidden "
             >
               <div className="absolute inset-0 rounded-full bg-green-500/20 blur-xl" />
 
@@ -215,7 +215,7 @@ export default function Navbar() {
                 }}
                 src={logo}
                 alt="menu"
-                className="relative z-10 h-10 w-10 object-contain"
+              className="relative z-10 h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(132,255,0,0.7)]"
               />
             </motion.button>
           </div>
