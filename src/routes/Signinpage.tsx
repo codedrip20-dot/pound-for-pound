@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { signInWithGoogle, signInAuthUserWithEmailAndPassword } from "../utils/firebase";
-import {useState, useContext} from "react";
-import { UserContext } from "../Context/userContext";
+import {useState} from "react";
+import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
  const defaultFormFields = {
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 };
 
 const SignInPage = () => {
-const {currentUser} = useContext(UserContext); 
+
 const [formFields, setFormFields] = useState(defaultFormFields);
 
   const { email, password } = formFields;
@@ -28,7 +28,9 @@ const [formFields, setFormFields] = useState(defaultFormFields);
   };
 
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (
+  event: FormEvent<HTMLFormElement>
+) => {
     event.preventDefault();
     try {
       const response = await signInAuthUserWithEmailAndPassword(
@@ -39,9 +41,9 @@ const [formFields, setFormFields] = useState(defaultFormFields);
       console.log(response);
       alert("Signed in successfully");
       navigate("/");
-      console.log('current user is',currentUser);
+    
       setFormFields(defaultFormFields);
-    } catch (error) {
+    } catch (error: any) {
       switch (error.code) {
         case "auth/wrong-password":
           alert("Incorrect password for email");
