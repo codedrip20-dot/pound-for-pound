@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { signInWithGoogle, signInAuthUserWithEmailAndPassword } from "../utils/firebase";
+import { signInWithGoogle, signInAuthUserWithEmailAndPassword, signOutAuthUser } from "../utils/firebase";
 import {useState} from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ const [formFields, setFormFields] = useState(defaultFormFields);
   };
 
 const handleSubmit = async (
-  event: React.FormEvent<HTMLFormElement>
+  event: FormEvent<HTMLFormElement>
 ) => {
 
   event.preventDefault();
