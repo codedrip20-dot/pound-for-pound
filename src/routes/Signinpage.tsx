@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { signInWithGoogle, signInAuthUserWithEmailAndPassword, signOutAuthUser } from "../utils/firebase";
-import {useState} from "react";
+import {useState, useContext} from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../contexts/userContext";
+import LoadingCom from "../components/authenticationCom/LoadingCom";
 
  const defaultFormFields = {
     email: "",
@@ -12,10 +14,14 @@ import { useNavigate } from "react-router-dom";
 
 const SignInPage = () => {
 
+  const { loading } = useContext(UserContext);
+  const [authLoading, setAuthLoading] = useState(false);
 const [formFields, setFormFields] = useState(defaultFormFields);
 
   const { email, password } = formFields;
   const navigate = useNavigate();
+
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -26,7 +32,19 @@ const [formFields, setFormFields] = useState(defaultFormFields);
       [name]: value,
     });
   };
-
+const logGoogleUser = async () => {
+  try {
+    setAuthLoading(true);
+    await signInWithGoogle();
+   
+    navigate("/myprofile");
+  } catch (error) {
+    console.log("Google sign-in error:", error);
+    alert("Failed to sign in with Google");
+  } finally {
+    setAuthLoading(false);
+  }
+};
 const handleSubmit = async (
   event: FormEvent<HTMLFormElement>
 ) => {
@@ -101,6 +119,13 @@ const handleSubmit = async (
 };
 
   return (
+  <>
+    {loading && (
+      <LoadingCom message="Signing you in..." />
+    )}
+    {authLoading && (
+      <LoadingCom message="Signing in with Google..." />
+    )}
     <div className="relative min-h-screen overflow-hidden bg-black flex items-center justify-center px-4">
 
       {/* Background Glow */}
@@ -184,7 +209,7 @@ const handleSubmit = async (
         <motion.button
           whileTap={{ scale: 0.97 }}
           whileHover={{ scale: 1.015 }}
-          onClick={signInWithGoogle}
+          onClick={logGoogleUser}
           className="mt-5 group relative w-full overflow-hidden rounded-2xl bg-lime-400 py-4 font-bold text-black transition-all duration-300 hover:bg-lime-300"
         >
           <div className="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -252,6 +277,7 @@ const handleSubmit = async (
         </div>
       </motion.div>
     </div>
+    </>
   );
 };
 

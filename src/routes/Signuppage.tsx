@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createAuthUserWithEmailAndPassword, sendEmailVerificationToUser } from "../utils/firebase";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import LoadingCom from "../components/authenticationCom/LoadingCom";
 
 const defaultFormFields = {
   displayName: "",
@@ -11,6 +12,7 @@ const defaultFormFields = {
 };
 
 const SignUpPage = () => {
+   const [authLoading, setAuthLoading] = useState(false);
   const [formFields, setFormFields] = useState(defaultFormFields);
 
   const { displayName, email, password, confirmPassword } = formFields;
@@ -57,6 +59,7 @@ const SignUpPage = () => {
   try {
 
     // CREATE FIREBASE AUTH USER
+    setAuthLoading(true);
     const response =
       await createAuthUserWithEmailAndPassword(
         email,
@@ -135,11 +138,17 @@ const SignUpPage = () => {
       "User creation encountered an error",
       error
     );
+  } finally {
+    setAuthLoading(false);
   }
 };
 
 
   return (
+    <>
+      {authLoading && (
+        <LoadingCom message="Creating your account..." />
+      )}
     <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center px-4 py-10">
 
       {/* Background Glow */}
@@ -256,6 +265,7 @@ const SignUpPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

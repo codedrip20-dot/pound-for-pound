@@ -45,7 +45,7 @@ export const signInWithGoogle = async () => {
     await createUserDocumentFromAuth(response.user);
 
     console.log(response);
-    alert("Signed in successfully");
+    
   
     return response;
   } catch (error) {
