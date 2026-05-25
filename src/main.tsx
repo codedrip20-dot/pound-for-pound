@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import SmoothScroll from './components/SmoothScroll.tsx'
 import './index.css'
 import App from './App.tsx'
-import { UserProvider } from './Context/userContext.tsx';
+import { UserProvider } from './contexts/userContext.tsx';
 
 
 import { BrowserRouter } from 'react-router-dom';

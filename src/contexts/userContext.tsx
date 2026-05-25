@@ -11,7 +11,7 @@ import {
 } from "../utils/firebase";
 
 import type { User } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+
 
 type UserContextType = {
   currentUser: User | null;
@@ -28,7 +28,7 @@ type UserProviderProps = {
 };
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const navigate = useNavigate();
+
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
@@ -42,12 +42,12 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         }
 
         setCurrentUser(user);
-        navigate("/");
+     
       }
     );
 
     return unsubscribe;
-  }, [navigate]);
+  }, []);
 
   const value = {
     currentUser,

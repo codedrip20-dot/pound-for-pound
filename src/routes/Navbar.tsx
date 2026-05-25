@@ -6,7 +6,7 @@ import gsap from "gsap";
 
 import logo from "../assets/box.png";
 import two from "../assets/218.png";
-import { UserContext } from "../Context/userContext";
+import { UserContext } from "../contexts/userContext";
 
 
 

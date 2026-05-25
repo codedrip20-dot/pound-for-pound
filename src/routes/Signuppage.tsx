@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../utils/firebase";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const defaultFormFields = {
   displayName: "",
@@ -13,6 +14,7 @@ const SignUpPage = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
 
   const { displayName, email, password, confirmPassword } = formFields;
+  const navigate = useNavigate();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -42,6 +44,7 @@ const SignUpPage = () => {
       password
     );
 
+
   if (response) {
     const { user } = response;
 
@@ -51,6 +54,7 @@ const SignUpPage = () => {
   }
 
   alert("Account created successfully");
+  navigate("/");
 
   setFormFields(defaultFormFields);
 

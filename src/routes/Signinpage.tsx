@@ -39,8 +39,8 @@ const [formFields, setFormFields] = useState(defaultFormFields);
       );
    
       console.log(response);
-      alert("Signed in successfully");
-      navigate("/");
+     navigate("/myprofile");
+  
     
       setFormFields(defaultFormFields);
     } catch (error: any) {

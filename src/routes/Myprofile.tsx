@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { motion } from "framer-motion";
 import { LogOut, User, Mail, ShieldCheck } from "lucide-react";
 
-import { UserContext } from "../Context/userContext";
+import { UserContext } from "../contexts/userContext";
 import {signOutAuthUser} from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -102,7 +102,7 @@ const MyProfile = () => {
 
           {/* buttons */}
           <div className="mt-10 flex flex-col gap-4">
-            <button
+            <button onClick={() => navigate("/")}
               className="w-full py-3 rounded-2xl bg-green-500 text-black font-bold hover:scale-[1.02] transition-all duration-300 shadow-[0_0_30px_rgba(34,197,94,0.4)]"
             >
               Explore Drops
