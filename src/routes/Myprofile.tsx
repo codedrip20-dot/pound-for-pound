@@ -13,7 +13,7 @@ const MyProfile = () => {
   const handleLogout = async () => {
     try {
       signOutAuthUser();
-      alert("Signed out successfully");
+  
       setCurrentUser(null);
       navigate("/signin");
     } catch (error) {
