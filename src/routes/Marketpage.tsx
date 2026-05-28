@@ -1,7 +1,430 @@
-const MarketPage = () => {
-    return (
-        <h1>I am the Market Page</h1>
-    )
-}
+import { useMemo, useState } from "react";
 
-export default MarketPage;
+import { useProducts } from "../contexts/productContext.tsx";
+
+import productBackground from "../assets/productBackground.png";
+
+import {
+  motion,
+  AnimatePresence,
+} from "framer-motion";
+
+import {
+  Search,
+  SlidersHorizontal,
+  Sparkles,
+  Flame,
+  Clock3,
+} from "lucide-react";
+
+import ProductCard from "../components/productCom/productCard.tsx";
+
+const categories = [
+  "all",
+  "tshirt",
+  "hoodie",
+  "jacket",
+  "cargo",
+  "joggers",
+];
+
+const tabs = [
+  {
+    name: "Newest",
+    icon: Clock3,
+  },
+  {
+    name: "Trending",
+    icon: Flame,
+  },
+  {
+    name: "Limited",
+    icon: Sparkles,
+  },
+];
+
+const Marketpage = () => {
+  const { products } = useProducts();
+
+  const [activeCategory, setActiveCategory] =
+    useState("all");
+
+  const [searchQuery, setSearchQuery] =
+    useState("");
+
+  const [activeTab, setActiveTab] =
+    useState("Newest");
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product: any) => {
+      const matchesCategory =
+        activeCategory === "all"
+          ? true
+          : product.category === activeCategory;
+
+      const matchesSearch =
+        product.productName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+
+      return (
+        matchesCategory &&
+        matchesSearch
+      );
+    });
+  }, [
+    products,
+    activeCategory,
+    searchQuery,
+  ]);
+
+  return (
+    <section
+      className="relative min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url(${productBackground})`,
+      }}
+    >
+      {/* OVERLAY */}
+      <div className="absolute inset-0 bg-black/80 z-0" />
+
+      {/* GRID */}
+      <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:80px_80px]" />
+
+      {/* GLOWS */}
+      <div className="absolute top-[-200px] left-[-100px] h-[450px] w-[450px] rounded-full bg-green-500/20 blur-[150px]" />
+
+      <div className="absolute bottom-[-200px] right-[-100px] h-[400px] w-[400px] rounded-full bg-green-500/10 blur-[150px]" />
+
+      <div className="relative z-10 px-5 md:px-10 xl:px-16 py-28">
+        <div className="mx-auto max-w-7xl">
+          {/* HERO */}
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 60,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.7,
+            }}
+            className="relative overflow-hidden rounded-[40px] border border-green-500/10 bg-white/[0.03] backdrop-blur-2xl p-8 md:p-14"
+          >
+            {/* HERO GLOW */}
+            <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-green-500/20 blur-[120px]" />
+
+            <div className="absolute bottom-0 right-0 h-[220px] w-[220px] rounded-full bg-green-500/10 blur-[120px]" />
+
+            {/* BADGE */}
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-400/20 bg-green-500/10 px-5 py-2 backdrop-blur-md">
+              <div className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_15px_#4ade80]" />
+
+              <p className="text-xs uppercase tracking-[4px] text-green-300">
+                Limited Streetwear Drop
+              </p>
+            </div>
+
+            {/* HERO CONTENT */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-14 items-center">
+              {/* LEFT */}
+              <div>
+                <motion.h1
+                  initial={{
+                    opacity: 0,
+                    y: 40,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    delay: 0.2,
+                  }}
+                  className="text-[4rem] sm:text-[5rem] md:text-[7rem] font-black leading-[0.9] tracking-[-5px]"
+                >
+                  <span className="block text-white">
+                    BUILT
+                  </span>
+
+                  <span className="block text-green-400 drop-shadow-[0_0_35px_rgba(74,222,128,0.8)]">
+                    DIFFERENT
+                  </span>
+                </motion.h1>
+
+                <motion.p
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    delay: 0.4,
+                  }}
+                  className="mt-8 max-w-xl text-sm md:text-base leading-relaxed text-zinc-400"
+                >
+                  Premium underground
+                  streetwear crafted for
+                  movement, pressure, and
+                  presence. Built for those
+                  who refuse average.
+                </motion.p>
+
+                {/* BUTTONS */}
+                <div className="mt-10 flex flex-wrap gap-5">
+                  <button className="rounded-full bg-green-500 px-8 py-4 text-sm font-bold uppercase tracking-[2px] text-black shadow-[0_0_40px_rgba(74,222,128,0.5)] transition hover:scale-105 hover:bg-green-400">
+                    Explore Drop
+                  </button>
+
+                  <button className="rounded-full border border-green-500/20 bg-white/[0.03] px-8 py-4 text-sm font-semibold uppercase tracking-[2px] text-white backdrop-blur-md transition hover:border-green-400/40 hover:bg-white/[0.05]">
+                    View Collection
+                  </button>
+                </div>
+
+                {/* STATS */}
+                <div className="mt-14 grid grid-cols-3 gap-4">
+                  {[
+                    {
+                      number: "218",
+                      label: "LIMITED UNITS",
+                    },
+                    {
+                      number: "24H",
+                      label: "FAST SELLOUT",
+                    },
+                    {
+                      number: "EST.",
+                      label: "UNDERGROUND BRAND",
+                    },
+                  ].map((item) => (
+                    <div
+                      key={item.label}
+                      className="rounded-2xl border border-green-500/10 bg-black/30 p-5 backdrop-blur-md"
+                    >
+                      <h3 className="text-2xl font-black text-green-400">
+                        {item.number}
+                      </h3>
+
+                      <p className="mt-2 text-[10px] uppercase tracking-[3px] text-zinc-500">
+                        {item.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* RIGHT */}
+              <div className="hidden xl:flex items-center justify-center">
+                <motion.div
+                  animate={{
+                    y: [0, -15, 0],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 4,
+                  }}
+                  className="relative"
+                >
+                  <div className="absolute inset-0 rounded-full bg-green-500/20 blur-[100px]" />
+
+                  <div className="relative flex h-[380px] w-[380px] items-center justify-center rounded-full border border-green-500/20 bg-black/40 backdrop-blur-xl">
+                    <div className="absolute inset-10 rounded-full border border-green-500/10" />
+
+                    <div className="absolute inset-20 rounded-full border border-green-500/10" />
+
+                    <h2 className="text-[6rem] font-black text-green-400/20">
+                      218
+                    </h2>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* CONTROLS */}
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 40,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.5,
+            }}
+            viewport={{
+              once: true,
+            }}
+            className="sticky top-6 z-30 mt-12 rounded-[30px] border border-green-500/10 bg-black/40 backdrop-blur-2xl p-6"
+          >
+            <div className="flex flex-col gap-6">
+              {/* TOP */}
+              <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+                {/* SEARCH */}
+                <div className="relative w-full xl:max-w-md">
+                  <Search
+                    size={18}
+                    className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
+                  />
+
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) =>
+                      setSearchQuery(
+                        e.target.value
+                      )
+                    }
+                    className="h-14 w-full rounded-full border border-green-500/10 bg-black/50 pl-14 pr-6 text-white outline-none placeholder:text-zinc-600 focus:border-green-400/40"
+                  />
+                </div>
+
+                {/* TABS */}
+                <div className="flex flex-wrap gap-3">
+                  {tabs.map((tab) => {
+                    const Icon =
+                      tab.icon;
+
+                    return (
+                      <button
+                        key={tab.name}
+                        onClick={() =>
+                          setActiveTab(
+                            tab.name
+                          )
+                        }
+                        className={`flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-300 ${
+                          activeTab ===
+                          tab.name
+                            ? "bg-green-500 text-black shadow-[0_0_25px_rgba(74,222,128,0.5)]"
+                            : "border border-green-500/10 bg-black/40 text-zinc-300 hover:border-green-400/30"
+                        }`}
+                      >
+                        <Icon size={16} />
+
+                        {tab.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* BOTTOM */}
+              <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+                {/* CATEGORY */}
+                <div className="flex flex-wrap gap-3">
+                  {categories.map(
+                    (category) => (
+                      <button
+                        key={category}
+                        onClick={() =>
+                          setActiveCategory(
+                            category
+                          )
+                        }
+                        className={`rounded-full px-5 py-2 text-xs uppercase tracking-[2px] transition-all duration-300 ${
+                          activeCategory ===
+                          category
+                            ? "bg-green-500 text-black shadow-[0_0_25px_rgba(74,222,128,0.5)]"
+                            : "border border-green-500/10 bg-black/40 text-zinc-400 hover:border-green-400/30"
+                        }`}
+                      >
+                        {category}
+                      </button>
+                    )
+                  )}
+                </div>
+
+                {/* RIGHT */}
+                <div className="flex items-center gap-4">
+                  <div className="rounded-full border border-green-500/10 bg-black/40 px-5 py-3 text-sm text-zinc-400">
+                    {
+                      filteredProducts.length
+                    }{" "}
+                    Products
+                  </div>
+
+                  <button className="flex items-center gap-2 rounded-full border border-green-500/10 bg-black/40 px-5 py-3 text-sm text-white transition hover:border-green-400/30">
+                    <SlidersHorizontal
+                      size={16}
+                    />
+
+                    Sort
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* PRODUCTS */}
+          <div className="relative mt-16">
+            <div className="absolute left-1/2 top-0 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-green-500/10 blur-[140px]" />
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{
+                  opacity: 0,
+                  y: 30,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  y: -20,
+                }}
+                transition={{
+                  duration: 0.5,
+                }}
+                className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+              >
+                {filteredProducts.map(
+                  (
+                    product: any,
+                    index: number
+                  ) => (
+                    <motion.div
+                      key={product.uid}
+                      initial={{
+                        opacity: 0,
+                        y: 50,
+                      }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                      }}
+                      transition={{
+                        delay:
+                          index * 0.08,
+                        duration: 0.5,
+                      }}
+                      viewport={{
+                        once: true,
+                      }}
+                    >
+                      <ProductCard
+                        {...product}
+                      />
+                    </motion.div>
+                  )
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Marketpage;
