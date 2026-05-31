@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ShoppingBag, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 type ProductCardProps = {
   uid: string;
@@ -35,7 +36,6 @@ const ProductCard = ({
   size,
   fit,
   fabric,
-  GSN,
   printType,
   price,
   stockQuantity,
@@ -51,7 +51,9 @@ const ProductCard = ({
         ).toFixed(1)
       : "5.0";
 
+      
   return (
+    <Link to={`/product/${uid}`}>
     <motion.div
       initial={{ opacity: 0, y: 70 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -187,6 +189,7 @@ const ProductCard = ({
       {/* Border Glow */}
       <div className="pointer-events-none absolute inset-0 rounded-[28px] border border-transparent group-hover:border-green-400/40 transition duration-500" />
     </motion.div>
+    </Link>
   );
 };
 
