@@ -1,16 +1,19 @@
-import { useState } from "react";
+
 import { Ruler } from "lucide-react";
 
 
 type SizeSelectorProps = {
   sizes: string[];
+  selectedSize: string;
+  setSelectedSize: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const SizeSelector = ({
   sizes,
+  selectedSize,
+  setSelectedSize,
 }: SizeSelectorProps) => {
-  const [selectedSize, setSelectedSize] =
-    useState<string>("");
+ 
 
   return (
     <section

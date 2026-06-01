@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useContext } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import gsap from "gsap";
@@ -48,7 +48,7 @@ export default function Navbar() {
 
   const navRef = useRef<HTMLElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
-
+  const navigate = useNavigate();
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Product", path: "/market" },
@@ -173,6 +173,7 @@ export default function Navbar() {
             {/* Desktop CTA */}
             <motion.div
               variants={navItem}
+              onClick={() => navigate('/cart')}
               className="hidden items-center gap-4 md:flex"
             >
               <Link to="/cart">

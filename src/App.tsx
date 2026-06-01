@@ -11,7 +11,7 @@ import MyProfile from './routes/Myprofile.tsx'
 import NotificationCom from './components/authenticationCom/NotificationCom.tsx'
 import ForgotPassword from './components/authenticationCom/ForgotPassword.tsx'
 import ViewProduct from './routes/ViewProduct.tsx'
-
+  
 
 function App() {
 
@@ -30,6 +30,7 @@ function App() {
         <Route path='verify-email' element={<NotificationCom />} />
         <Route path='reset-password' element={<ForgotPassword />} />
         <Route path='product/:uid' element={<ViewProduct />} />
+        <Route path='cart' element={<CartPage />} />
       </Route>
 
     </Routes>

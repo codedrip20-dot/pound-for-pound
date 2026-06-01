@@ -1,22 +1,47 @@
 import { ShoppingCart, Zap } from "lucide-react";
+import { useCart } from "../../contexts/cartContext";
+import { useNavigate } from "react-router-dom";
 
 type Product = {
   uid: string;
   productName: string;
   price: number;
   stockQuantity: number;
+  productImages: string[];
 };
 
 type AddToCartButtonsProps = {
   product: Product;
+  selectedSize: string;
 };
-
 const AddToCartButtons = ({
   product,
+  selectedSize,
 }: AddToCartButtonsProps) => {
+
+    const { addToCart } = useCart();
+    const navigate = useNavigate();
+
+    const handleAddToCart = () => {
+            if (!selectedSize) {
+                alert("Please select a size");
+                return;
+            }
+
+            addToCart({
+                uid: product.uid,
+                productName: product.productName,
+                imageUrl: product.productImages[0],
+                price: product.price,
+                selectedSize,
+            });
+            navigate('/cart');
+            };
+
+
   const isOutOfStock =
     product.stockQuantity <= 0;
-
+ console.log('the product and the selected size inside AddToCartButtons is: ', product, selectedSize);
   return (
     <section className="space-y-4">
       {/* Stock Indicator */}
@@ -68,6 +93,7 @@ const AddToCartButtons = ({
         <button
           type="button"
           disabled={isOutOfStock}
+          onClick={handleAddToCart}
           className="
             group
             flex

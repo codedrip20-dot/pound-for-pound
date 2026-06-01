@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.tsx'
 import { UserProvider } from './contexts/userContext.tsx';
 import { ProductProvider } from './contexts/productContext.tsx';
+import { CartProvider } from "./contexts/cartContext";
 
 
 import { BrowserRouter } from 'react-router-dom';
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')!).render(
       <SmoothScroll />
       <UserProvider>
         <ProductProvider>
+          <CartProvider>
           <App />
+          </CartProvider>
         </ProductProvider>
       </UserProvider>
     </BrowserRouter>
