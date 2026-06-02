@@ -34,6 +34,7 @@ const AddToCartButtons = ({
                 imageUrl: product.productImages[0],
                 price: product.price,
                 selectedSize,
+                productImages: product.productImages,
             });
             navigate('/cart');
             };

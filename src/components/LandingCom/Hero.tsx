@@ -7,6 +7,7 @@ import gsap from "gsap";
 import heroBg from "../../assets/hero-bg.png";
 import box from "../../assets/box.png";
 import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const fadeUp = (
   delay = 0,
@@ -45,6 +46,7 @@ const floatingAnimation = {
 
 const Hero = () => {
   const glowRef = useRef<HTMLDivElement>(null);
+  const Nav = useNavigate();
 
   useEffect(() => {
     if (!glowRef.current) return;
@@ -157,7 +159,7 @@ const Hero = () => {
           >
 
             {/* PRIMARY BUTTON */}
-            <button className="group relative overflow-hidden rounded-2xl border border-green-400/30 bg-green-500 px-7 py-3 font-semibold text-black transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_35px_rgba(34,197,94,0.45)]">
+            <button onClick={() => Nav('/cart')}  className="group relative overflow-hidden rounded-2xl border border-green-400/30 bg-green-500 px-7 py-3 font-semibold text-black transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_35px_rgba(34,197,94,0.45)]">
 
               <span className="relative z-10">Buy Now</span>
 
@@ -165,7 +167,7 @@ const Hero = () => {
             </button>
 
             {/* SECONDARY BUTTON */}
-            <button className="group rounded-2xl border border-green-500/30 bg-white/5 px-7 py-3 font-semibold text-green-300 backdrop-blur-xl transition-all duration-300 hover:border-green-400 hover:bg-green-500/10 hover:text-white hover:shadow-[0_0_25px_rgba(34,197,94,0.25)]">
+            <button onClick={() => Nav('/market')}  className="group rounded-2xl border border-green-500/30 bg-white/5 px-7 py-3 font-semibold text-green-300 backdrop-blur-xl transition-all duration-300 hover:border-green-400 hover:bg-green-500/10 hover:text-white hover:shadow-[0_0_25px_rgba(34,197,94,0.25)]">
               Explore Collection
             </button>
           </motion.div>

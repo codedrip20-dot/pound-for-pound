@@ -3,8 +3,9 @@ import {
   useContext,
   useMemo,
   useState,
-  ReactNode,
+
 } from "react";
+import type { ReactNode } from "react";
 
 export interface CartItem {
   uid: string;
@@ -72,23 +73,62 @@ export const CartProvider = ({
             ]);
             };
               console.log("the value inside the cartItems state is ", cartItems);
+                        
+            const removeFromCart = (
+            uid: string,
+            selectedSize: string
+            ) => {
+            setCartItems((prevItems) =>
+                prevItems.filter(
+                (item) =>
+                    !(
+                    item.uid === uid &&
+                    item.selectedSize === selectedSize
+                    )
+                )
+            );
+            };
 
-        const removeFromCart = (
+
+       const increaseQuantity = (
         uid: string,
         selectedSize: string
-        ) => {};
+        ) => {
+        setCartItems((prevItems) =>
+            prevItems.map((item) =>
+            item.uid === uid &&
+            item.selectedSize === selectedSize
+                ? {
+                    ...item,
+                    quantity: item.quantity + 1,
+                }
+        : item
+    )
+  );
+};
 
-        const increaseQuantity = (
-        uid: string,
-        selectedSize: string
-        ) => {};
+     const decreaseQuantity = (
+            uid: string,
+            selectedSize: string
+            ) => {
+            setCartItems((prevItems) =>
+                prevItems
+                .map((item) =>
+                    item.uid === uid &&
+                    item.selectedSize === selectedSize
+                    ? {
+                        ...item,
+                        quantity: item.quantity - 1,
+                        }
+                    : item
+                )
+                .filter((item) => item.quantity > 0)
+            );
+            };
 
-        const decreaseQuantity = (
-        uid: string,
-        selectedSize: string
-        ) => {};
-
-        const clearCart = () => {};
+    const clearCart = () => {
+        setCartItems([]);
+        };
 
   const cartCount = useMemo(
     () =>

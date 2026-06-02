@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 
 import { useCart } from "../contexts/cartContext";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const {
@@ -19,6 +20,8 @@ const CartPage = () => {
     clearCart,
   } = useCart();
 
+    const Nav = useNavigate();
+    
   if (cartItems.length === 0) {
     return (
       <section className="min-h-screen bg-black text-white flex items-center justify-center px-6">
@@ -36,6 +39,9 @@ const CartPage = () => {
             Looks like you haven't added
             anything yet.
           </p>
+            <button onClick={() => Nav('/market')}  className="group mt-5 rounded-2xl border border-green-500/30 bg-white/5 px-7 py-3 font-semibold text-green-300 backdrop-blur-xl transition-all duration-300 hover:border-green-400 hover:bg-green-500/10 hover:text-white hover:shadow-[0_0_25px_rgba(34,197,94,0.25)]">
+              Explore Collection
+            </button>
         </div>
       </section>
     );
@@ -204,6 +210,7 @@ const CartPage = () => {
                       gap-2
                       text-red-400
                     "
+                  
                   >
                     <Trash2 size={18} />
                     Remove
@@ -289,8 +296,13 @@ const CartPage = () => {
               <ArrowRight size={20} />
             </button>
           </div>
+          <button onClick={() => Nav('/market')}  className="group mt-5 rounded-2xl border border-green-500/30 bg-white/5 px-7 py-3 font-semibold text-green-300 backdrop-blur-xl transition-all duration-300 hover:border-green-400 hover:bg-green-500/10 hover:text-white hover:shadow-[0_0_25px_rgba(34,197,94,0.25)]">
+              Explore Collection
+            </button>
         </div>
+           
       </div>
+     
     </section>
   );
 };

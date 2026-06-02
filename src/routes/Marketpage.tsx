@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { ArrowDown } from "lucide-react";
 
 import { useProducts } from "../contexts/productContext.tsx";
 
@@ -177,13 +178,12 @@ const Marketpage = () => {
 
                 {/* BUTTONS */}
                 <div className="mt-10 flex flex-wrap gap-5">
-                  <button className="rounded-full bg-green-500 px-8 py-4 text-sm font-bold uppercase tracking-[2px] text-black shadow-[0_0_40px_rgba(74,222,128,0.5)] transition hover:scale-105 hover:bg-green-400">
-                    Explore Drop
+                  <button className="rounded-full bg-green-500 px-8 py-6 text-sm font-bold uppercase tracking-[2px] text-black shadow-[0_0_40px_rgba(74,222,128,0.5)] transition hover:scale-105 hover:bg-green-400">
+                    scrool down to explore drops 
+                    <ArrowDown size={18} />
                   </button>
 
-                  <button className="rounded-full border border-green-500/20 bg-white/[0.03] px-8 py-4 text-sm font-semibold uppercase tracking-[2px] text-white backdrop-blur-md transition hover:border-green-400/40 hover:bg-white/[0.05]">
-                    View Collection
-                  </button>
+                
                 </div>
 
                 {/* STATS */}
