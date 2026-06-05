@@ -14,7 +14,11 @@ import {
   getFirestore,
   doc,
   getDoc,
-  setDoc } from "firebase/firestore";
+  setDoc,
+  collection,
+  getDocs,
+  query
+} from "firebase/firestore";
 
 
 
@@ -123,4 +127,43 @@ export const resetPassword = async (
     auth,
     email
   );
+};
+// DataBase activities starts here
+
+//adding all the sample data inside the firebase database
+// export const addCollectionAndDocuments = async (
+//   collectionKey: string,
+//   objectsToAdd: any[]
+// ) => {
+//   const collectionRef = collection(db, collectionKey);
+
+//   const batch = writeBatch(db);
+
+//   objectsToAdd.forEach((object) => {
+//     const docRef = doc(
+//       collectionRef,
+//       object.uid // using your product uid as Firestore document id
+//     );
+
+//     batch.set(docRef, object);
+//   });
+
+//   await batch.commit();
+
+//   alert("Products added to Firestore successfully!");
+//   console.log("done");
+// };
+
+export const fetchProducts = async () => {
+  const collectionRef = collection(db, "products");
+
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+
+  const products = querySnapshot.docs.map((docSnapshot) => ({
+    ...docSnapshot.data(),
+  }));
+
+  return products;
 };

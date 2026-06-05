@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
-import { products } from "../components/data";
+import { createContext, useContext, useState, useEffect } from "react";
+
+import { fetchProducts } from "../utils/firebase";
 
 type ProductContextType = {
   products: any[];
@@ -13,7 +14,16 @@ export const ProductProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [allProducts, setAllProducts] = useState(products);
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const products = await fetchProducts();
+      setAllProducts(products);
+    };
+
+    getProducts();
+  }, []);
 
   return (
     <ProductContext.Provider
