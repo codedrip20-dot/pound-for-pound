@@ -14,6 +14,7 @@ import {
   getFirestore,
   doc,
   getDoc,
+  updateDoc,
   setDoc,
   collection,
   getDocs,
@@ -166,4 +167,70 @@ export const fetchProducts = async () => {
   }));
 
   return products;
+};
+
+//Adminlogiccs
+
+//addproductsto firebase
+export const addProductToFirestore = async (
+  product: any
+) => {
+  try {
+    const productRef = doc(
+      db,
+      "products",
+      product.uid || crypto.randomUUID()
+    );
+
+    await setDoc(productRef, product);
+
+    return {
+      success: true,
+      message:
+        "Product added successfully",
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      message:
+        "Failed to add product",
+    };
+  }
+};
+
+
+//update product images in firebase
+
+export type ProductImage = {
+  id: string;
+  imageUrl: string;
+  publicId: string;
+  altText: string;
+};
+
+export const updateProductImages = async (
+  uid: string,
+  productImages: ProductImage[]
+) => {
+  try {
+    const productRef = doc(db, "products", uid);
+
+    await updateDoc(productRef, {
+      productImages,
+    });
+
+    return {
+      success: true,
+      message: "Product images updated successfully",
+    };
+  } catch (error) {
+    console.error("Error updating product images:", error);
+
+    return {
+      success: false,
+      message: "Failed to update product images",
+    };
+  }
 };

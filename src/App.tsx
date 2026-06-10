@@ -11,6 +11,12 @@ import MyProfile from './routes/Myprofile.tsx'
 import NotificationCom from './components/authenticationCom/NotificationCom.tsx'
 import ForgotPassword from './components/authenticationCom/ForgotPassword.tsx'
 import ViewProduct from './routes/ViewProduct.tsx'
+
+//admin imports
+import AdminNav from './adminRoutes/AdminNav.tsx'
+import AdminAddProduct from './adminRoutes/AdminAddProduct.tsx'
+import AddImages from './components/adminComponents/addProducts/addImage.tsx'
+import AddText from './components/adminComponents/addProducts/addText.tsx'
   
 
 function App() {
@@ -31,6 +37,13 @@ function App() {
         <Route path='reset-password' element={<ForgotPassword />} />
         <Route path='product/:uid' element={<ViewProduct />} />
         <Route path='cart' element={<CartPage />} />
+      </Route>
+
+      <Route path='/admin' element={<AdminNav />}> 
+      <Route path='addProduct' element={<AdminAddProduct />}>
+      <Route index element={<AddText />} />
+       <Route path='addImages' element={<AddImages />} />
+    </Route>
       </Route>
 
     </Routes>

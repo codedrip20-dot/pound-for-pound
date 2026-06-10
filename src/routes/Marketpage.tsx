@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import ProductCard from "../components/productCom/productCard.tsx";
+import ProductLoading from "../components/productCom/productLoading.tsx";
 
 const categories = [
   "all",
@@ -45,7 +46,7 @@ const tabs = [
 ];
 
 const Marketpage = () => {
-  const { products } = useProducts();
+  const { products, loading } = useProducts();
 
   const [activeCategory, setActiveCategory] =
     useState("all");
@@ -56,28 +57,44 @@ const Marketpage = () => {
   const [activeTab, setActiveTab] =
     useState("Newest");
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((product: any) => {
-      const matchesCategory =
-        activeCategory === "all"
-          ? true
-          : product.category === activeCategory;
+   
 
-      const matchesSearch =
-        product.productName
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
+const filteredProducts = useMemo(() => {
+  return products.filter((product: any) => {
 
-      return (
-        matchesCategory &&
-        matchesSearch
-      );
-    });
-  }, [
-    products,
-    activeCategory,
-    searchQuery,
-  ]);
+    const hasImages =
+      product.productImages &&
+      product.productImages.length > 0;
+
+    const matchesCategory =
+      activeCategory === "all"
+        ? true
+        : product.category === activeCategory;
+
+    const matchesSearch =
+      product.productName
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+
+    return (
+      hasImages &&
+      matchesCategory &&
+      matchesSearch
+    );
+  });
+}, [
+  products,
+  activeCategory,
+  searchQuery,
+]);
+
+    if (loading) {
+    return (
+      <section className="min-h-screen bg-black flex items-center justify-center">
+        <ProductLoading />
+      </section>
+    );
+  }
 
   return (
     <section
@@ -99,152 +116,7 @@ const Marketpage = () => {
 
       <div className="relative z-10 px-5 md:px-10 xl:px-16 py-28">
         <div className="mx-auto max-w-7xl">
-          {/* HERO */}
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 60,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-            className="relative overflow-hidden rounded-[40px] border border-green-500/10 bg-white/[0.03] backdrop-blur-2xl p-8 md:p-14"
-          >
-            {/* HERO GLOW */}
-            <div className="absolute top-0 left-0 h-[250px] w-[250px] rounded-full bg-green-500/20 blur-[120px]" />
-
-            <div className="absolute bottom-0 right-0 h-[220px] w-[220px] rounded-full bg-green-500/10 blur-[120px]" />
-
-            {/* BADGE */}
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-green-400/20 bg-green-500/10 px-5 py-2 backdrop-blur-md">
-              <div className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_15px_#4ade80]" />
-
-              <p className="text-xs uppercase tracking-[4px] text-green-300">
-                Limited Streetwear Drop
-              </p>
-            </div>
-
-            {/* HERO CONTENT */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-14 items-center">
-              {/* LEFT */}
-              <div>
-                <motion.h1
-                  initial={{
-                    opacity: 0,
-                    y: 40,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: 0.2,
-                  }}
-                  className="text-[4rem] sm:text-[5rem] md:text-[7rem] font-black leading-[0.9] tracking-[-5px]"
-                >
-                  <span className="block text-white">
-                    BUILT
-                  </span>
-
-                  <span className="block text-green-400 drop-shadow-[0_0_35px_rgba(74,222,128,0.8)]">
-                    DIFFERENT
-                  </span>
-                </motion.h1>
-
-                <motion.p
-                  initial={{
-                    opacity: 0,
-                    y: 20,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: 0.4,
-                  }}
-                  className="mt-8 max-w-xl text-sm md:text-base leading-relaxed text-zinc-400"
-                >
-                  Premium underground
-                  streetwear crafted for
-                  movement, pressure, and
-                  presence. Built for those
-                  who refuse average.
-                </motion.p>
-
-                {/* BUTTONS */}
-                <div className="mt-10 flex flex-wrap gap-5">
-                  <button className="rounded-full bg-green-500 px-8 py-6 text-sm font-bold uppercase tracking-[2px] text-black shadow-[0_0_40px_rgba(74,222,128,0.5)] transition hover:scale-105 hover:bg-green-400">
-                    scrool down to explore drops 
-                    <ArrowDown size={18} />
-                  </button>
-
-                
-                </div>
-
-                {/* STATS */}
-                <div className="mt-14 grid grid-cols-3 gap-4">
-                  {[
-                    {
-                      number: "218",
-                      label: "LIMITED UNITS",
-                    },
-                    {
-                      number: "24H",
-                      label: "FAST SELLOUT",
-                    },
-                    {
-                      number: "EST.",
-                      label: "UNDERGROUND BRAND",
-                    },
-                  ].map((item) => (
-                    <div
-                      key={item.label}
-                      className="rounded-2xl border border-green-500/10 bg-black/30 p-5 backdrop-blur-md"
-                    >
-                      <h3 className="text-2xl font-black text-green-400">
-                        {item.number}
-                      </h3>
-
-                      <p className="mt-2 text-[10px] uppercase tracking-[3px] text-zinc-500">
-                        {item.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* RIGHT */}
-              <div className="hidden xl:flex items-center justify-center">
-                <motion.div
-                  animate={{
-                    y: [0, -15, 0],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 4,
-                  }}
-                  className="relative"
-                >
-                  <div className="absolute inset-0 rounded-full bg-green-500/20 blur-[100px]" />
-
-                  <div className="relative flex h-[380px] w-[380px] items-center justify-center rounded-full border border-green-500/20 bg-black/40 backdrop-blur-xl">
-                    <div className="absolute inset-10 rounded-full border border-green-500/10" />
-
-                    <div className="absolute inset-20 rounded-full border border-green-500/10" />
-
-                    <h2 className="text-[6rem] font-black text-green-400/20">
-                      218
-                    </h2>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
+        
 
           {/* CONTROLS */}
           <motion.div
