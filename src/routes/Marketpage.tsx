@@ -1,10 +1,6 @@
 import { useMemo, useState } from "react";
-import { ArrowDown } from "lucide-react";
-
 import { useProducts } from "../contexts/productContext.tsx";
-
 import productBackground from "../assets/productBackground.png";
-
 import {
   motion,
   AnimatePresence,
