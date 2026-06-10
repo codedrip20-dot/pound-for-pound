@@ -17,7 +17,9 @@ import AdminNav from './adminRoutes/AdminNav.tsx'
 import AdminAddProduct from './adminRoutes/AdminAddProduct.tsx'
 import AddImages from './components/adminComponents/addProducts/addImage.tsx'
 import AddText from './components/adminComponents/addProducts/addText.tsx'
-  
+import AdminDeleteProduct from './adminRoutes/AdminDeleteProduct.tsx'
+import AdminEditPrices from './adminRoutes/AdminEditPrices.tsx'
+import AdminOrders from './adminRoutes/AdminOrders.tsx'
 
 function App() {
 
@@ -44,6 +46,10 @@ function App() {
       <Route index element={<AddText />} />
        <Route path='addImages' element={<AddImages />} />
     </Route>
+
+      <Route path='deleteProduct' element={<AdminDeleteProduct />} />
+      <Route path='editPrices' element={<AdminEditPrices />} />
+      <Route path='orders' element={<AdminOrders />} />
       </Route>
 
     </Routes>

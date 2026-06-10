@@ -18,7 +18,8 @@ import {
   setDoc,
   collection,
   getDocs,
-  query
+  query,
+  deleteDoc,
 } from "firebase/firestore";
 
 
@@ -232,5 +233,56 @@ export const updateProductImages = async (
       success: false,
       message: "Failed to update product images",
     };
+  }
+};
+
+// delete product from firebase
+export const deleteProduct = async (
+  uid: string
+): Promise<void> => {
+  try {
+    const productRef = doc(
+      db,
+      "products",
+      uid
+    );
+
+    await deleteDoc(productRef);
+
+    console.log(
+      `Product ${uid} deleted successfully`
+    );
+  } catch (error) {
+    console.error(
+      "Error deleting product:",
+      error
+    );
+
+    throw error;
+  }
+};
+
+
+export const updatePrice = async (
+  uid: string,
+  price: number
+): Promise<void> => {
+  try {
+    const productRef = doc(
+      db,
+      "products",
+      uid
+    );
+
+    await updateDoc(productRef, {
+      price,
+    });
+
+    console.log(
+      `Price updated for ${uid}`
+    );
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
