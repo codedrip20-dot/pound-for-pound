@@ -39,7 +39,7 @@ const AdminDeleteProduct = () => {
       const fetchedProducts =
         await fetchProducts();
 
-      setProducts(fetchedProducts);
+      setProducts(fetchedProducts as Product[]);
     } catch (error) {
       console.error(
         "Error fetching products:",

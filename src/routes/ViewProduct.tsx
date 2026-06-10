@@ -20,6 +20,13 @@ const ViewProduct = () => {
 
   const { uid } = useParams();
   const { products } = useProducts();
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+  , [uid]);
 
   const product = products.find(
     (item) => item.uid === uid
@@ -139,7 +146,7 @@ const ViewProduct = () => {
         {/* ================= RELATED PRODUCTS ================= */}
 
         {relatedProducts.length > 0 && (
-          <section className="mt-20">
+          <section className="mt-20" >
             <RelatedProducts
               products={relatedProducts}
             />

@@ -38,7 +38,7 @@ const AdminEditPrices = () => {
       const fetchedProducts =
         await fetchProducts();
 
-      setProducts(fetchedProducts);
+      setProducts(fetchedProducts as Product[]);
     } catch (error) {
       console.error(error);
     } finally {
